@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Posts{% endblock %}</h1>
+{% if g.user %}
+<a class="action" href="{{ url_for('journal.create') }}">New</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% for post in posts %}
+<article class="post">
+  <header>
+    <div>
+      <h1>{{ post['created'] }}</h1>
+      <div class="about">by You and {{ partner['username'] }}</div>
+    </div>
+    <a class="action" href="{{ url_for('journal.update', id=post['id']) }}">Edit</a>
+  </header>
+  <table style="width:100%">
+    <tr>
+      <td>{{ post['ubody'] }}</td>
+      <td>{{ post['pbody'] }}</td>
+    </tr>
+  </table>
+</article>
+{% if not loop.last %}
+<hr/>
+{% endif %}
+{% endfor %}
+{% endblock %}

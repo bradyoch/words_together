@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}User: {{ user }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+{% if partner %}
+<div>
+  <h3>Friend: {{ partner['username'] }}</h3>
+</div>
+{% else %}
+<div>
+  <h3>Add a friend!</h3>
+  <form method="post">
+    <label for="name">Friend Username</label>
+    <input name="name"/>
+    <input type="submit" value="Add"/>
+  </form>
+</div>
+{% endif %}
+{% if posts %}
+<header>
+  <h1>Your posts</h1>
+</header>
+{% for post in posts %}
+<article class="post">
+  <header>
+    <div>
+      <h1>{{ post['created'] }}</h1>
+      <div class="about">by You</div>
+    </div>
+    <a class="action" href="{{ url_for('journal.update', id=post['id']) }}">Edit</a>
+  </header>
+  <table style="width:100%">
+    <tr>
+      <td>{{ post['body'] }}</td>
+    </tr>
+  </table>
+</article>
+{% if not loop.last %}
+<hr/>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endblock %}
