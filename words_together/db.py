@@ -22,9 +22,11 @@ def close_db(e=None):
 
 def init_db():
     db = get_db()
-
-    with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode())
+    try:
+        db.execute('select * from user')
+    except sqlite3.Error:
+        with current_app.open_resource('schema.sql') as f:
+            db.executescript(f.read().decode())
 
 @click.command('init-db')
 @with_appcontext
